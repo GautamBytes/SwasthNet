@@ -8,11 +8,20 @@ import {
   PointElement,
   Title,
   Tooltip,
+  ChartConfiguration
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { useTPS } from '../hooks/useTPS';
 
-Chart.register(LineController, LineElement, TimeScale, LinearScale, PointElement, Title, Tooltip);
+Chart.register(
+  LineController,
+  LineElement,
+  TimeScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip
+);
 
 interface TPSChartProps {
   rpcUrl: string;
@@ -24,7 +33,8 @@ export const TPSChart: React.FC<TPSChartProps> = ({ rpcUrl }) => {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const chart = new Chart(canvasRef.current, {
+
+    const config: ChartConfiguration<'line', { x: number; y: number }[], unknown> = {
       type: 'line',
       data: {
         datasets: [
@@ -33,27 +43,27 @@ export const TPSChart: React.FC<TPSChartProps> = ({ rpcUrl }) => {
             data: [],
             tension: 0.3,
             borderColor: '#4ade80',
-            backgroundColor: 'rgba(74, 222, 128, 0.2)',
-          },
-        ],
+            backgroundColor: 'rgba(74, 222, 128, 0.2)'
+          }
+        ]
       },
       options: {
         animation: false,
         scales: {
           x: { type: 'time', time: { tooltipFormat: 'HH:mm:ss' } },
-          y: { beginAtZero: true },
+          y: { beginAtZero: true }
         },
         plugins: {
           title: { display: true, text: 'Transactions Per Second' },
-          tooltip: { enabled: true },
-        },
-      },
-    });
+          tooltip: { enabled: true }
+        }
+      }
+    };
+
+    const chart = new Chart(canvasRef.current, config);
 
     const id = setInterval(() => {
-      // if real TPS is >0, use it; otherwise seed a random 1–6 TPS
-      const value =
-        tps !== null && tps > 0 ? tps : Number((Math.random() * 5 + 1).toFixed(2));
+      const value = tps !== null && tps > 0 ? tps : Number((Math.random() * 5 + 1).toFixed(2));
       chart.data.datasets[0].data.push({ x: Date.now(), y: value });
       if (chart.data.datasets[0].data.length > 30) {
         chart.data.datasets[0].data.shift();
@@ -69,14 +79,7 @@ export const TPSChart: React.FC<TPSChartProps> = ({ rpcUrl }) => {
 
   return (
     <div className="bg-gray-800 p-4 rounded">
-      {tps === null ? (
-        <p className="text-center">Loading TPS…</p>
-      ) : (
-        <canvas ref={canvasRef} height={200} />
-      )}
+      {tps === null ? <p className="text-center">Loading TPS…</p> : <canvas ref={canvasRef} height={200} />}
     </div>
   );
 };
-
-
-
