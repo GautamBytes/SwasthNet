@@ -1,11 +1,5 @@
-// src/hooks/useNetworkHealth.ts
 import { useState, useEffect } from 'react';
-import { Connection } from '@solana/web3.js';
 
-/**
- * Polls Solana RPC getHealth() every [interval] ms and measures latency.
- * Returns { latency, healthStatus } where healthStatus is 'ok' or 'error'.
- */
 export function useNetworkHealth(
   rpcUrl: string,
   interval: number = 10_000
@@ -14,25 +8,29 @@ export function useNetworkHealth(
   const [healthStatus, setHealthStatus] = useState<'ok' | 'error'>('ok');
 
   useEffect(() => {
-    const connection = new Connection(rpcUrl);     // :contentReference[oaicite:6]{index=6}
     let mounted = true;
 
     async function fetchHealth() {
       const start = performance.now();
       try {
-        await connection.getHealth();               // :contentReference[oaicite:7]{index=7}
+        const res = await fetch(`${rpcUrl}/health`);
+        const text = await res.text();
         const duration = performance.now() - start;
-        if (mounted) {
+        if (!mounted) return;
+
+        if (text.trim() === 'ok') {
           setLatency(duration);
           setHealthStatus('ok');
+        } else {
+          setHealthStatus('error');
         }
       } catch {
         if (mounted) setHealthStatus('error');
       }
     }
 
-    fetchHealth();                                  // initial call
-    const id = setInterval(fetchHealth, interval);  // polling
+    fetchHealth(); // initial
+    const id = setInterval(fetchHealth, interval);
 
     return () => {
       mounted = false;
@@ -42,3 +40,4 @@ export function useNetworkHealth(
 
   return { latency, healthStatus };
 }
+
