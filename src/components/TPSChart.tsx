@@ -7,9 +7,9 @@ import {
   LinearScale,
   PointElement,
   Title,
-  Tooltip,
-  ChartConfiguration
+  Tooltip
 } from 'chart.js';
+import type { ChartConfiguration } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { useTPS } from '../hooks/useTPS';
 
