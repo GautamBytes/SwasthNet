@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
+import type { ChartConfiguration } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { useBlockDrift } from '../hooks/useBlockDrift';
 
@@ -38,7 +39,8 @@ export const BlockDriftChart: React.FC<BlockDriftChartProps> = ({ rpcUrl }) => {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const chart = new Chart(canvasRef.current, {
+
+    const config: ChartConfiguration<'line', { x: number; y: number }[], unknown> = {
       type: 'line',
       data: {
         datasets: [
@@ -62,7 +64,9 @@ export const BlockDriftChart: React.FC<BlockDriftChartProps> = ({ rpcUrl }) => {
           tooltip: { enabled: true },
         },
       },
-    });
+    };
+
+    const chart = new Chart(canvasRef.current, config);
 
     const id = setInterval(() => {
       // Use real drift if available; else seed demo data
@@ -93,5 +97,3 @@ export const BlockDriftChart: React.FC<BlockDriftChartProps> = ({ rpcUrl }) => {
     </div>
   );
 };
-
-
