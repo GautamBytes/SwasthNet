@@ -1,0 +1,63 @@
+/* index.css */
+:root {
+  /* Color Palette - Modern Dark Theme */
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #121228;
+  --text-primary: #e6e6f0;
+  --text-secondary: #a0a0c0;
+  --accent-primary: #7e3af2;
+  --accent-secondary: #4299e1;
+  --border-color: rgba(126, 58, 242, 0.2);
+  
+  /* Typography */
+  --font-sans: 'Inter', 'system-ui', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--text-primary);
+}
+
