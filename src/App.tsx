@@ -1,5 +1,3 @@
-// App.tsx
-import React from 'react';
 import { FaHeartbeat, FaNetworkWired } from 'react-icons/fa';
 import { StatusBanner } from './components/StatusBanner';
 import { TPSChart } from './components/TPSChart';
