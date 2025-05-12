@@ -41,7 +41,7 @@ SwasthNet is a React and TypeScript component library for embedding real-time So
 
 ### Installation
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/GautamBytes/SwasthNet.git
 cd solana-healthwidget
 npm install
 ````
@@ -118,5 +118,3 @@ export default function App() {
 ## License
 
 This project is licensed under the MIT License.
-```
-
